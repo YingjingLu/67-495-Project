@@ -1,0 +1,17 @@
+{% extends "module/header.html" %}
+
+{% block content %}
+
+<div class='row'>
+    <div class='col s1'></div>
+    <div class='col s10'></div>
+    <form action="/module/new/" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
+    </div>
+    <div class='col s1'></div>
+</div>
+
+{% endblock %}

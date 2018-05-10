@@ -1,0 +1,26 @@
+{% extends "module/header.html" %}
+{% block content %}
+
+<h1>All Modules: </h1>
+{% if all_module %}
+<div class="row">
+    {% for m in all_module %}
+        <div class="col s12 m4">
+          <div class="card blue darken-2">
+            <div class="card-content white-text">
+              <span class="card-title">{{m.module_name}}</span>
+              <p>Access Level: {{m.access_level}}</p>
+              <p>{{m.description}}</p>
+            </div>
+            <div class="card-action white-text">
+              <a class='white-text' href="http://127.0.0.1:8000/module/module/{{ m.id }}/0/0">Go to module</a>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+  </div>
+{% else %}
+<h3> No Module in Database </h3>
+{% endif %}
+
+{% endblock %}

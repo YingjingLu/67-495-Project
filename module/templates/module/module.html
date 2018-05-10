@@ -1,0 +1,10 @@
+{% extends "module/header.html" %}
+
+{% block content %}
+<form action="/module/module/new/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "module/header.html" %}
+
+{% block content %}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.load('current', {'packages':['scatter']});
+  google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'ID');
+        data.addColumn('number', 'Value');
+        data.addColumn( {'type': 'string', 'role': 'style'} );
+        var raw = [{% for i in attr%}
+          {% if i|length < 3 %}
+          [ {% for j in i %} {{j}},{% endfor %}'point { size: 10; fill-color: #a52714; }' ],
+          {% else %}
+          [ {% for j in i %} {{j}},{% endfor %} ],
+          {% endif %}
+          {% endfor %}];
+
+        data.addRows(raw);
+        var options = {
+          title: 'Service Status',
+          backgroundColor: { fill:'transparent' },
+          hAxis: {title: 'time stamp', minValue: 0, maxValue: 15},
+          vAxis: {title: 'status', minValue: 0, maxValue: 15},
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+      }
+      drawChart()
+    </script>
+
+    <div class="row">
+      <h5>Module: {{module_name}}</h5>
+    </div>
+    <div class="row">
+        <div class = 'col s12'>
+            <div id="chart_div" style="width: 100%; height: 400px;"></div>
+        </div>
+    </div>
+    <div class="row">
+      <div class='col s1'>
+        {% if prev %}
+        <a class="waves-effect waves-light btn" href="http://127.0.0.1:8000/module/module/{{prev}}">Prev</a>
+        
+        {% endif %}
+      </div>
+      <div class='col s10'>
+      </div>
+      <div class='col s1'>
+        {% if next %}
+        <a class="waves-effect waves-light btn" href="http://127.0.0.1:8000/module/module/{{next}}">Next</a>
+        
+        {% endif %}
+      </div>
+    </div>
+
+
+    <div class = 'row'>
+    <div class="col s12">
+    <table class="striped responsive-table">
+        <thead>
+          <tr>
+              {% for t in title_list %}
+              <th>{{ t }}</th>
+              {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for row in batch %}
+          <tr>
+            {% for col in row %}
+            <td>{{ col }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    </div>
+{% endblock %}
